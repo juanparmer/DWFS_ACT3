@@ -24,6 +24,8 @@ import java.util.Map;
 @Tag(name = "Books", description = "API para gestionar el catálogo de libros")
 @RestController
 @RequestMapping("/books")
+// Mirar la direccion de origins, debe ser la de vercel, CrossOrigin ignora CORS
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @Slf4j
 public class BooksController {
