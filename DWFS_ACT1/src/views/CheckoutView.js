@@ -6,7 +6,11 @@ export const CheckoutView = () => {
     const { cart, clearCart } = useContext(BookContext);
     const navigate = useNavigate();
 
-    const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    // Dentro de CheckoutView
+    const totalPrice = cart.reduce((total, item) => {
+        const price = item.price || 19.99; // <--- El seguro de vida
+        return total + (price * item.quantity);
+    }, 0);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -35,15 +39,21 @@ export const CheckoutView = () => {
                 <div className="checkout-summary">
                     <h3>Resumen del Pedido</h3>
                     <div className="cart-items">
-                        {cart.map(item => (
-                            <div key={item.id} className="cart-item" style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <div>
-                                    <p style={{ margin: 0, fontWeight: 'bold' }}>{item.title}</p>
-                                    <small>{item.quantity} ud. x {item.price}€</small>
+                        {cart.map(item => {
+                            const itemPrice = item.price || 19.99; // <--- Definimos la constante aquí
+                            
+                            return (
+                                <div key={item.id} className="cart-item" style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div>
+                                        <p style={{ margin: 0, fontWeight: 'bold' }}>{item.title}</p>
+                                        {/* Mostramos el precio correcto */}
+                                        <small>{item.quantity} ud. x {itemPrice.toFixed(2)}€</small>
+                                    </div>
+                                    {/* El subtotal de la línea ahora será correcto */}
+                                    <span style={{ fontWeight: 'bold' }}>{(itemPrice * item.quantity).toFixed(2)}€</span>
                                 </div>
-                                <span style={{ fontWeight: 'bold' }}>{(item.price * item.quantity).toFixed(2)}€</span>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                     <div className="cart-total" style={{ marginTop: '20px', padding: '10px', borderTop: '2px solid #eee' }}>
                         <span>Total a pagar:</span>

@@ -1,26 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext } from "react"; // <--- Asegúrate de que 'useContext' esté aquí
 import { BookContext } from "./BookContext";
 import { useNavigate } from "react-router-dom";
 
 export const Cart = ({ isOpen, toggleCart }) => {
-    // const { cart, removeFromCart, updateQuantity } = useContext(BookContext);
     const { cart, removeFromCart, updateQuantity, clearCart } = useContext(BookContext);
     const navigate = useNavigate();
 
-    const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    // CORRECCIÓN 1: Aseguramos que si item.price no existe, use 19.99 para el cálculo total
+    const totalPrice = cart.reduce((total, item) => {
+        const price = item.price || 19.99;
+        return total + (price * item.quantity);
+    }, 0);
 
     const handleCheckout = () => {
         if (cart.length === 0) {
             alert("El carrito está vacío");
             return;
         }
-
-        // alert("¡Pedido realizado con éxito! Gracias por su compra.");
-        // clearCart();
-        // toggleCart();
-        // navigate("/home");
-
-        toggleCart(); // Cerrar el panel lateral
+        toggleCart();
         navigate("/checkout");
     };
 
@@ -50,45 +47,45 @@ export const Cart = ({ isOpen, toggleCart }) => {
                     ) : (
                         <>
                             <div className="cart-items">
-                                {cart.map((item) => (
-                                    <div key={item.id} className="cart-item">
-                                        <div className="cart-item__info">
-                                            <h4 className="cart-item__title">{item.title}</h4>
-                                            <p className="cart-item__author">{item.author}</p>
-                                            <span className="cart-item__price">{item.price}€</span>
-                                        </div>
-
-                                        <div className="cart-item__actions">
-                                            <div className="cart-item__quantity">
-                                                <button 
-                                                    className="quantity-btn"
-                                                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                                                >
-                                                    −
-                                                </button>
-                                                <span className="quantity-value">{item.quantity}</span>
-                                                <button 
-                                                    className="quantity-btn"
-                                                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                                                >
-                                                    +
-                                                </button>
+                                {cart.map((item) => {
+                                    // CORRECCIÓN 2: Definimos el precio aquí para usarlo en el subtotal
+                                    const itemPrice = item.price || 19.99;
+                                    
+                                    return (
+                                        <div key={item.id} className="cart-item">
+                                            <div className="cart-item__info">
+                                                <h4 className="cart-item__title">{item.title}</h4>
+                                                <p className="cart-item__author">{item.author}</p>
+                                                {/* CORRECCIÓN 3: Mostrar el precio o el default */}
+                                                <span className="cart-item__price">{itemPrice}€</span>
                                             </div>
 
-                                            <button 
-                                                className="cart-item__remove"
-                                                onClick={() => removeFromCart(item.id)}
-                                                title="Eliminar del carrito"
-                                            >
-                                                🗑️
-                                            </button>
-                                        </div>
+                                            <div className="cart-item__actions">
+                                                <div className="cart-item__quantity">
+                                                    <button 
+                                                        className="quantity-btn"
+                                                        onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                                    > − </button>
+                                                    <span className="quantity-value">{item.quantity}</span>
+                                                    <button 
+                                                        className="quantity-btn"
+                                                        onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                                    > + </button>
+                                                </div>
 
-                                        <div className="cart-item__subtotal">
-                                            Subtotal: {(item.price * item.quantity).toFixed(2)}€
+                                                <button 
+                                                    className="cart-item__remove"
+                                                    onClick={() => removeFromCart(item.id)}
+                                                > 🗑️ </button>
+                                            </div>
+
+                                            <div className="cart-item__subtotal">
+                                                {/* Aquí ya no dará NaN porque itemPrice siempre es un número */}
+                                                Subtotal: {(itemPrice * item.quantity).toFixed(2)}€
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
 
                             <div className="cart-panel__footer">

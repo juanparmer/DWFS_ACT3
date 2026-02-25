@@ -12,7 +12,7 @@ export const Book = ({ book }) => {
         <div className="book-card" onClick={handleClick}>
             <h3 className="book-card__title">{book.title}</h3>
             <p className="book-card__author">{book.author}</p>
-            <span className="book-card__price">{book.price}€</span>
+            <span className="book-card__price">{book.price || 19.99}€</span>
             
         </div>
     );
