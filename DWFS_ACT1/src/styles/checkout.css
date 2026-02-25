@@ -1,0 +1,36 @@
+/* Ajustes para el formulario de Checkout */
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.checkout-input {
+    width: 100%;
+    /* Ocupa el 100% del contenedor padre */
+    box-sizing: border-box;
+    /* Crucial: incluye el padding en el ancho total */
+    padding: 15px 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+.checkout-input:focus {
+    border-color: #667eea;
+    /* Color de tu gradiente principal */
+}
+
+.checkout-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.checkout-row .checkout-input {
+    flex: 1;
+    /* Hace que los campos de MM/AA y CVV midan lo mismo */
+}

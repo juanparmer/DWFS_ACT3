@@ -1,0 +1,249 @@
+/* ==============================
+   ESTILOS DE VISTA DE DETALLE DE LIBRO
+   ============================== */
+
+.btn-back {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+  transform: translateX(-5px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+/* Contenedor principal del detalle */
+.book-detail {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 50px;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.book-detail__image {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.book-cover {
+  width: 300px;
+  height: 450px;
+  background: var(--primary-gradient);
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.book-cover__text {
+  font-size: 8rem;
+}
+
+/* Información del libro */
+.book-detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.book-detail__title {
+  font-size: 2.5rem;
+  color: #4834d4;
+  margin: 0;
+  font-weight: 700;
+}
+
+.book-detail__author {
+  font-size: 1.3rem;
+  color: #636e72;
+  margin: 0;
+  font-weight: 500;
+}
+
+.book-detail__description {
+  margin-top: 20px;
+}
+
+.book-detail__description h3 {
+  color: var(--text-dark);
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.book-detail__description p {
+  line-height: 1.8;
+  color: #636e72;
+  font-size: 1.05rem;
+}
+
+/* Metadatos del libro */
+.book-detail__metadata {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.metadata-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.metadata-label {
+  font-size: 0.85rem;
+  color: #95a5a6;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.metadata-value {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+/* Sección de compra */
+.book-detail__purchase {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid #e9ecef;
+}
+
+.book-detail__price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-add-to-cart {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-add-to-cart:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+}
+
+.btn-add-to-cart:active {
+  transform: translateY(0);
+}
+
+/* Confirmación de añadido al carrito */
+.cart-confirmation {
+  background: #00b894;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Error de libro no encontrado */
+.book-detail-error {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.book-detail-error h2 {
+  color: var(--text-dark);
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
+@media (max-width: 768px) {
+  .book-detail {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 25px;
+  }
+
+  .book-cover {
+    width: 200px;
+    height: 300px;
+  }
+
+  .book-cover__text {
+    font-size: 5rem;
+  }
+
+  .book-detail__title {
+    font-size: 1.8rem;
+  }
+
+  .book-detail__author {
+    font-size: 1.1rem;
+  }
+
+  .book-detail__metadata {
+    grid-template-columns: 1fr;
+  }
+
+  .book-detail__purchase {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .book-detail__price {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .btn-add-to-cart {
+    width: 100%;
+  }
+}

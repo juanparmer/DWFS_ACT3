@@ -1,0 +1,223 @@
+/* ==============================
+   ESTILOS GLOBALES Y GENERALES
+   ============================== */
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-color: #ff7e5f;
+  --bg-color: #f8f9fa;
+  --text-dark: #2d3436;
+  --white: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+}
+
+/* ==============================
+   HEADER Y NAVEGACIÓN
+   ============================== */
+
+.header {
+  background: var(--primary-gradient); 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  color: white;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  text-align: center; 
+}
+
+/* Icono del carrito */
+.cart-icon {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-icon__symbol {
+  font-size: 2rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.cart-icon:hover .cart-icon__symbol {
+  transform: scale(1.1);
+}
+
+.cart-icon__badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--secondary-color);
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ==============================
+   CONTENEDOR PRINCIPAL
+   ============================== */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.center {
+  text-align: center;
+}
+
+/* ==============================
+   VISTA HOME - BUSCADOR Y LIBROS
+   ============================== */
+
+/* Buscador Dinámico */
+.search-bar {
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+/* Cuadrícula de Libros */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 20px 0;
+}
+
+/* Tarjeta de Libro */
+.book-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-bottom: 5px solid transparent;
+  cursor: pointer;
+}
+
+.book-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-bottom: 5px solid var(--secondary-color);
+}
+
+.book-card__title {
+  font-size: 1.4rem;
+  margin: 10px 0;
+  color: #4834d4;
+}
+
+.book-card__author {
+  color: #636e72;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.book-card__price {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 20px;
+  background: var(--primary-gradient);
+  color: white;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* ==============================
+   VISTA LANDING
+   ============================== */
+
+.landing {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--primary-gradient);
+  color: white;
+  text-align: center;
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .cart-icon {
+    right: 20px;
+  }
+
+  .cart-icon__symbol {
+    font-size: 1.5rem;
+  }
+
+  .cart-icon__badge {
+    width: 20px;
+    height: 20px;
+    font-size: 0.75rem;
+  }
+}
