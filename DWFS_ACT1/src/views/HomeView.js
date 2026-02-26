@@ -1,47 +1,46 @@
-import React, { useContext, useState } from "react";
-import { BookContext } from "../components/BookContext";
+import React, { useState, useEffect, useCallback } from "react";
 import { Book } from "../components/Book";
-import axios from "axios"
-import { useEffect } from "react";
+import axios from "axios";
 
 export const HomeView = () => {
-    const { booksData } = useContext(BookContext);
     const [searchTerm, setSearchTerm] = useState("");
-
-    const [libroApi, setLibroApi]  = useState([])
+    const [libroApi, setLibroApi] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
-    useEffect(() => {
+    // Envolvemos la función en useCallback para que sea estable
+    const fetchBooks = useCallback(async () => {
         setLoading(true);
-        
-        const url = searchTerm 
-            ? `http://localhost:8088/books?title=${searchTerm}` 
-            : "http://localhost:8088/books";
+        try {
+            // Usamos la ruta relativa gracias al proxy de package.json
+            // Si el término es vacío, vamos a /books directamente
+            const url = searchTerm.trim() 
+                ? `/books?title=${encodeURIComponent(searchTerm)}` 
+                : "/books";
 
-        axios.get(url)
-            .then((response) => {
-                const librosDeLaApi = response.data.books || [];
-                
-                // Mapeamos los libros para asegurar que todos tengan precio
-                const librosConPrecio = librosDeLaApi.map(book => ({
-                    ...book,
-                    precio: book.price || 19.99 // Si no existe book.precio, pone 19.99
-                }));
+            const response = await axios.get(url);
+            
+            // Estructura según tu Postman: response.data.books
+            const rawBooks = response.data.books || [];
 
-                setLibroApi(librosConPrecio);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Error buscando libros:", err);
-                setLoading(false);
-            });
-    }, [searchTerm]);
+            const processedBooks = rawBooks.map(book => ({
+                ...book,
+                // Si el precio es null o no existe, ponemos 19.99
+                price: (book.price !== null && book.price !== undefined) ? book.price : 19.99
+            }));
 
-    // Filtrado por título de libro
-    const filteredBooks = booksData.filter(book =>
-        book.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+            setLibroApi(processedBooks);
+        } catch (err) {
+            console.error("Error en la carga:", err);
+            setLibroApi([]);
+        } finally {
+            setLoading(false);
+        }
+    }, [searchTerm]); // Se recrea si cambia el buscador
+
+    // Se ejecuta al montar el componente Y cuando cambia el searchTerm
+    useEffect(() => {
+        fetchBooks();
+    }, [fetchBooks]);
 
     return (
         <div className="container">
@@ -56,13 +55,19 @@ export const HomeView = () => {
             </div>
 
             <div className="book-grid">
-                {libroApi.length > 0 ? (
+                {loading ? (
+                    <p className="center">Cargando catálogo...</p>
+                ) : libroApi.length > 0 ? (
                     libroApi.map((book) => (
-                        // Pasamos una copia del libro con el precio asegurado
-                        <Book key={book.id} book={{...book, precio: book.precio || 19.99}} />
+                        <Book key={book.id} book={book} />
                     ))
                 ) : (
-                    <p className="center">No se encontraron libros.</p>
+                    <div className="center">
+                        <p>No se encontraron libros para "{searchTerm}".</p>
+                        <button className="btn-retry" onClick={fetchBooks}>
+                            Reintentar Carga
+                        </button>
+                    </div>
                 )}
             </div>
         </div>

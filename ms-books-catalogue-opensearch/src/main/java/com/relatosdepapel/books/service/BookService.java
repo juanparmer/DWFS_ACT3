@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface BookService {
 
-    BooksQueryResponse getBooks(String title, String author, String category, String isbn, String publicationDate, Integer rating, Integer page, Integer size, Boolean aggregate);
+    BooksQueryResponse getBooks(String title, String author, String category, String isbn, String publicationDate, Integer rating, Double minPrice, Double maxPrice, Integer page, Integer size, Boolean aggregate);
 
     Book createBook(BookRequest book);
 

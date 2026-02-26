@@ -24,8 +24,6 @@ import java.util.Map;
 @Tag(name = "Books", description = "API para gestionar el catálogo de libros")
 @RestController
 @RequestMapping("/books")
-// Mirar la direccion de origins, debe ser la de vercel, CrossOrigin ignora CORS
-@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @Slf4j
 public class BooksController {
@@ -37,7 +35,7 @@ public class BooksController {
     @Operation(summary = "Buscar libros", description = "Buscar libros con filtros opcionales")
     @ApiResponse(responseCode = "200", description = "Lista de libros encontrada",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
-    @Parameter(name = "params", description = "Parámetros de consulta: title, author, category, isbn, publicationDate, rating, page, size", required = false)
+    @Parameter(name = "params", description = "Parámetros de consulta: title, author, category, isbn, publicationDate, rating, minPrice, maxPrice, page, size", required = false)
     @GetMapping
     public ResponseEntity<BooksQueryResponse> getBooks(
             @RequestHeader Map<String, String> headers,
@@ -47,12 +45,14 @@ public class BooksController {
             @RequestParam(required = false) String isbn,
             @RequestParam(required = false) String publicationDate,
             @RequestParam(required = false) Integer rating,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size,
             @RequestParam(required = false, defaultValue = "false") Boolean aggregate) {
 
         log.info("headers: {}", headers);
-        BooksQueryResponse books = service.getBooks(title, author, category, isbn, publicationDate, rating, page, size, aggregate);
+        BooksQueryResponse books = service.getBooks(title, author, category, isbn, publicationDate, rating, minPrice, maxPrice, page, size, aggregate);
         return ResponseEntity.ok(books);
     }
 

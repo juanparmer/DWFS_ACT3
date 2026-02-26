@@ -1,6 +1,5 @@
 package com.relatosdepapel.books.data.model;
 
-import com.relatosdepapel.books.controller.model.BookDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,5 +49,8 @@ public class Book {
 
     @Field(type = FieldType.Boolean)
     private Boolean visible;
+
+    @Field(type = FieldType.Double)
+    private Double price;
 
 }

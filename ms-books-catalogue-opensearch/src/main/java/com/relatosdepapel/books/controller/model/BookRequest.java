@@ -22,5 +22,6 @@ public class BookRequest {
     private Integer rating;
     private Boolean visible;
     private Integer stock;
+    private Double price;
 
 }

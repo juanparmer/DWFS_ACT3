@@ -79,6 +79,9 @@ public class DataAccessRepository {
             if (bookUpdates.getVisible() != null) {
                 existingBook.setVisible(bookUpdates.getVisible());
             }
+            if (bookUpdates.getPrice() != null) {
+                existingBook.setPrice(bookUpdates.getPrice());
+            }
 
             return bookRepository.save(existingBook);
         }
@@ -95,7 +98,7 @@ public class DataAccessRepository {
     }
 
     @SneakyThrows
-    public BooksQueryResponse findBooks(String title, String author, String category, String isbn, String publicationDate, Integer rating, Integer page, Integer size, Boolean aggregate) {
+    public BooksQueryResponse findBooks(String title, String author, String category, String isbn, String publicationDate, Integer rating, Double minPrice, Double maxPrice, Integer page, Integer size, Boolean aggregate) {
 
         BoolQueryBuilder querySpec = QueryBuilders.boolQuery();
 
@@ -121,6 +124,17 @@ public class DataAccessRepository {
 
         if (rating != null) {
             querySpec.must(QueryBuilders.termQuery("rating", rating));
+        }
+
+        if (minPrice != null || maxPrice != null) {
+            var rangeQuery = QueryBuilders.rangeQuery("price");
+            if (minPrice != null) {
+                rangeQuery.gte(minPrice);
+            }
+            if (maxPrice != null) {
+                rangeQuery.lte(maxPrice);
+            }
+            querySpec.must(rangeQuery);
         }
 
         // Si no he recibido ningun parametro, busco todos los elementos.

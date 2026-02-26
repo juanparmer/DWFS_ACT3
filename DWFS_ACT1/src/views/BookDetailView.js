@@ -14,14 +14,27 @@ export const BookDetailView = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`http://localhost:8088/books/${id}`)
+        // IMPORTANTE: Quitamos http://localhost:8088 para usar el proxy
+        axios.get(`/books/${id}`) 
             .then((response) => {
-                // Seteamos el objeto directamente como vimos en tu JSON
-                setBook(response.data); 
+                console.log("Datos del libro recibidos:", response.data);
+                
+                // Verificamos que los datos existan
+                if (response.data) {
+                    // Si el libro viene con price null, le ponemos el default
+                    const libroProcesado = {
+                        ...response.data,
+                        price: response.data.price || 19.99
+                    };
+                    setBook(libroProcesado);
+                } else {
+                    setBook(null);
+                }
                 setLoading(false);
             })
             .catch((err) => {
                 console.error("Error al obtener el libro:", err);
+                setBook(null);
                 setLoading(false);
             });
     }, [id]);

@@ -1,6 +1,5 @@
 package com.relatosdepapel.books.controller.model;
 
-import com.relatosdepapel.books.data.model.Book;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -21,5 +20,6 @@ public class BookDto {
     private Integer rating;
     private Boolean visible;
     private Integer stock;
+    private Double price;
 
 }

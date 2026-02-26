@@ -17,8 +17,8 @@ public class BookServiceImpl implements BookService {
     private final DataAccessRepository repository;
 
     @Override
-    public BooksQueryResponse getBooks(String title, String author, String category, String isbn, String publicationDate, Integer rating, Integer page, Integer size, Boolean aggregate) {
-        return repository.findBooks(title, author, category, isbn, publicationDate, rating, page, size, aggregate != null && aggregate);
+    public BooksQueryResponse getBooks(String title, String author, String category, String isbn, String publicationDate, Integer rating, Double minPrice, Double maxPrice, Integer page, Integer size, Boolean aggregate) {
+        return repository.findBooks(title, author, category, isbn, publicationDate, rating, minPrice, maxPrice, page, size, aggregate != null && aggregate);
     }
 
     @Override
@@ -62,6 +62,9 @@ public class BookServiceImpl implements BookService {
         if (request.getStock() != null) {
             book.setStock(request.getStock());
         }
+        if (request.getPrice() != null) {
+            book.setPrice(request.getPrice());
+        }
 
         return repository.save(book);
     }
@@ -97,6 +100,7 @@ public class BookServiceImpl implements BookService {
         book.setIsbn(request.getIsbn() != null ? request.getIsbn().trim() : null);
         book.setRating(request.getRating());
         book.setStock(request.getStock());
+        book.setPrice(request.getPrice());
 
         return repository.update(id, book);
     }
@@ -133,6 +137,9 @@ public class BookServiceImpl implements BookService {
         }
         if (request.getVisible() != null) {
             bookUpdates.setVisible(request.getVisible());
+        }
+        if (request.getPrice() != null) {
+            bookUpdates.setPrice(request.getPrice());
         }
 
         Book updatedBook = repository.updatePartial(id, bookUpdates);
